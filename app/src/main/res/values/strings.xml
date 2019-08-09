@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AndroidPokeApi</string>
+    <string name="nombre_pokemon">Nombre Pokemon</string>
+    <string name="base_experience">Base Experience</string>
+    <string name="msg_error_carga_pok">Error. No se han cargado más Pokemon</string>
+    <string name="reintentar_carga">Intentar de nuevo</string>
+    <string name="tap_to_reload">Presiona para recargar</string>
+    <string name="error_msg">Ocurrió un error inesperado </string>
+    <string name="error_msg_unknown">Ocurrió un error inesperado</string>
+    <string name="error_msg_no_internet">No estás conectado a internet</string>
+    <string name="error_msg_timeout">El servidor tardó mucho en responder.</string>
+</resources>
