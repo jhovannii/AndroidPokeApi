@@ -6,4 +6,6 @@
     <color name="ic_launcher_background">#00EBF7F5</color>
     <color name="placeholder_grey">#AAADC4</color>
     <color name="placeholder_grey_20">#33AAADC4</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
 </resources>
