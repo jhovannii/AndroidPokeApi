@@ -2,7 +2,7 @@ package com.profuturo.AndroidPokeApi.model;
 
 import java.util.ArrayList;
 
-public class PokemonRespuesta {
+public class Pokemons {
     private ArrayList<Pokemon> results;
 
     public ArrayList<Pokemon> getResults() {

@@ -118,7 +118,7 @@ public class ListPokemonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         isLoadingAdded = false;
     }
 
-    public Pokemon getItem(int position) {
+    private Pokemon getItem(int position) {
         return pokemonArrayList.get(position);
     }
 
@@ -147,7 +147,7 @@ public class ListPokemonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public void remove(Pokemon r) {
+    private void remove(Pokemon r) {
         int position = pokemonArrayList.indexOf(r);
         if (position > -1) {
             pokemonArrayList.remove(position);
@@ -161,7 +161,7 @@ public class ListPokemonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private TextView mErrorTxt;
         private LinearLayout mErrorLayout;
 
-        public LoadingVH(View itemView) {
+        LoadingVH(View itemView) {
             super(itemView);
 
             mProgressBar = itemView.findViewById(R.id.loadmore_progress);
@@ -198,14 +198,10 @@ public class ListPokemonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ivFotoPokemon = itemView.findViewById(R.id.ivFotoPokemon);
             cvTarjetas = itemView.findViewById(R.id.cvTarjetas);
 
-            cvTarjetas.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Snackbar.make(itemView, pokemonArrayList.get(getAdapterPosition()).getName(), Snackbar.LENGTH_LONG).show();
-                    Intent intent = new Intent(mContext, DetalleActivity.class);
-                    intent.putExtra("POKEMON", pokemonArrayList.get(getAdapterPosition()));
-                    mContext.startActivity(intent);
-                }
+            cvTarjetas.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, DetalleActivity.class);
+                intent.putExtra("POKEMON", pokemonArrayList.get(getAdapterPosition()));
+                mContext.startActivity(intent);
             });
         }
     }

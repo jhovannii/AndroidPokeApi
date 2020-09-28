@@ -27,6 +27,17 @@ public class PokemonApi {
         return retrofit;
     }
 
+    public static Retrofit getClientDetail(Context context) {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder()
+                    .client(new OkHttpClient())
+                    .baseUrl("https://pokeapi.co/api/v2/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+        return retrofit;
+    }
+
     private static OkHttpClient buildClient(Context context) {
         final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
             Response originalResponse = chain.proceed(chain.request());

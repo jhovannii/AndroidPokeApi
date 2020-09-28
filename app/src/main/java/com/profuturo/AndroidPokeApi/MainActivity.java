@@ -14,12 +14,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.profuturo.AndroidPokeApi.adapters.ListPokemonAdapter;
 import com.profuturo.AndroidPokeApi.adapters.ListPokemonAdapterCallback;
 import com.profuturo.AndroidPokeApi.adapters.PaginationScrollListener;
 import com.profuturo.AndroidPokeApi.model.Pokemon;
-import com.profuturo.AndroidPokeApi.model.PokemonRespuesta;
+import com.profuturo.AndroidPokeApi.model.Pokemons;
 import com.profuturo.AndroidPokeApi.retrofit.PokemonApi;
 import com.profuturo.AndroidPokeApi.retrofit.PokemonService;
 
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements ListPokemonAdapte
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private Call<PokemonRespuesta> callPokemonService() {
+    private Call<Pokemons> callPokemonService() {
         return pokemonService.obtenerListaPokemon(20, offset);
     }
 
@@ -129,16 +130,16 @@ public class MainActivity extends AppCompatActivity implements ListPokemonAdapte
         hideErrorView();
         currentPage = PAGE_START;
 
-        callPokemonService().enqueue(new Callback<PokemonRespuesta>() {
+        callPokemonService().enqueue(new Callback<Pokemons>() {
             @Override
-            public void onResponse(Call<PokemonRespuesta> call, Response<PokemonRespuesta> response) {
+            public void onResponse(Call<Pokemons> call, Response<Pokemons> response) {
                 hideErrorView();
 
 //                Log.i(TAG, "onResponse: " + (response.raw().cacheResponse() != null ? "Cache" : "Network"));
 
                 // Got data. Send it to adapter
-                PokemonRespuesta pokemonRespuesta = response.body();
-                List<Pokemon> results = pokemonRespuesta.getResults();
+                Pokemons pokemons = response.body();
+                List<Pokemon> results = pokemons.getResults();
 
                 progressBar.setVisibility(View.GONE);
                 listPokemonAdapter.addAll(results);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements ListPokemonAdapte
             }
 
             @Override
-            public void onFailure(Call<PokemonRespuesta> call, Throwable t) {
+            public void onFailure(Call<Pokemons> call, Throwable t) {
                 t.printStackTrace();
                 showErrorView(t);
             }
@@ -159,15 +160,15 @@ public class MainActivity extends AppCompatActivity implements ListPokemonAdapte
         offset += 20;
         Log.d(TAG, "loadNextPage: " + currentPage);
 
-        callPokemonService().enqueue(new Callback<PokemonRespuesta>() {
+        callPokemonService().enqueue(new Callback<Pokemons>() {
             @Override
-            public void onResponse(Call<PokemonRespuesta> call, Response<PokemonRespuesta> response) {
+            public void onResponse(Call<Pokemons> call, Response<Pokemons> response) {
                 if (response.isSuccessful()) {
                     listPokemonAdapter.removeLoadingFooter();
                     isLoading = false;
 
-                    PokemonRespuesta pokemonRespuesta = response.body();
-                    List<Pokemon> results = pokemonRespuesta.getResults();
+                    Pokemons pokemons = response.body();
+                    List<Pokemon> results = pokemons.getResults();
                     listPokemonAdapter.addAll(results);
 
                     if (currentPage != TOTAL_PAGES) listPokemonAdapter.addLoadingFooter();
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements ListPokemonAdapte
             }
 
             @Override
-            public void onFailure(Call<PokemonRespuesta> call, Throwable t) {
+            public void onFailure(Call<Pokemons> call, Throwable t) {
                 Log.d(TAG, "onFailure Retrofit" + t.getMessage());
                 listPokemonAdapter.showRetry(true, fetchErrorMessage(t));
             }
@@ -212,20 +213,20 @@ public class MainActivity extends AppCompatActivity implements ListPokemonAdapte
 
 //    private ArrayList<Pokemon> obtenerDatos(int offset) {
 //        PokemonService pokemonService = retrofit.create(PokemonService.class);
-//        Call<PokemonRespuesta> pokemonRespuestaCall = pokemonService.obtenerListaPokemon(20, offset);
+//        Call<Pokemons> pokemonRespuestaCall = pokemonService.obtenerListaPokemon(20, offset);
 //        final ArrayList<Pokemon> pokemons = new ArrayList<>();
-//        pokemonRespuestaCall.enqueue(new Callback<PokemonRespuesta>() {
+//        pokemonRespuestaCall.enqueue(new Callback<Pokemons>() {
 //            @Override
-//            public void onResponse(Call<PokemonRespuesta> call, Response<PokemonRespuesta> response) {
+//            public void onResponse(Call<Pokemons> call, Response<Pokemons> response) {
 //                if (response.isSuccessful()) {
-//                    PokemonRespuesta pokemonRespuesta = response.body();
+//                    Pokemons pokemonRespuesta = response.body();
 //                    pokemons.addAll(pokemonRespuesta.getResults());
 //                } else
 //                    Log.d(TAG, "onResponseFail" + response.errorBody());
 //            }
 //
 //            @Override
-//            public void onFailure(Call<PokemonRespuesta> call, Throwable t) {
+//            public void onFailure(Call<Pokemons> call, Throwable t) {
 //                Log.d(TAG, "onFailure Retrofit" + t.getMessage());
 //            }
 //        });
